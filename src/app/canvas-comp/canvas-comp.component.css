@@ -1,11 +1,31 @@
 #gameContainer {
-    width: 810px;
-    height: 660px;
     background-color: bisque;
+    /* Permet aux canvas de se superposer normalement */
+    position: relative;
+    display: block;
+    height: 700px;
 }
 
 .canvasGrid {
-    /* width: 800;
-    height: 650px; */
-    background-color: azure
+    background-color: azure;
+    position: absolute;
+    display: block;
+    z-index: 0;
+}
+
+.canvasFleet {
+    position: absolute;
+    display: block;
+    z-index: 1;
+}
+
+#menu {
+    width: 1050px;
+    height: 700px;
+    /* background color temporaire */
+    background: black;
+}
+
+.btnspace {
+    padding-top: 25px;
 }

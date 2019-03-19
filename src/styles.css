@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+    background: #EAEAEA; /* Old browsers */
+    background: no-repeat fixed -moz-linear-gradient(45deg, #EAEAEA 0%, #4E4E4E 100%); /* FF3.6-15 */
+    background: no-repeat fixed -webkit-linear-gradient(45deg, #EAEAEA 0%,#4E4E4E 100%); /* Chrome10-25,Safari5.1-6 */
+    background: no-repeat fixed linear-gradient(45deg, #EAEAEA 0%,#4E4E4E 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EAEAEA' , endColorstr='#4E4E4E',GradientType=1); /* IE6-9 fallback on horizontal gradient*/
+}
