@@ -13,6 +13,7 @@ export class CanvasCompComponent implements OnInit {
   private context: CanvasRenderingContext2D;
   increCol: number;
   increRow: number;
+
   img;
   ship = {
     x: [54, 197, 314, 419, 419],
@@ -40,7 +41,7 @@ export class CanvasCompComponent implements OnInit {
     const gridNumberHeightL = gameBoxHeight / 100;
     const gridNumberWidthL = gameBoxWidth / 100;
 
-    this.increCol = 75;
+    this.increCol = 0;
     for (let x = 0; x < gridNumberWidthL; x++) {
       this.increRow = 0;
       // console.log('x = ', x);
@@ -49,10 +50,11 @@ export class CanvasCompComponent implements OnInit {
         this.context.strokeStyle = '#DCDCDC';
         // this.context.shadowBlur = 0.1;
         this.context.strokeRect(this.increCol, this.increRow, 75, 75);
-        this.increRow = this.increRow + 75;
-        // console.log(this.increRow);
+        this.increRow += 75;
+        // console.log('this.increRow', this.increRow);
       }
-      this.increCol = this.increCol + 75;
+      // console.log('this.increCol', this.increCol);
+      this.increCol += 75;
     }
   }
 
@@ -63,19 +65,34 @@ export class CanvasCompComponent implements OnInit {
     const gameBoxWidth = this.canvas.width;
     let xCanvasOccup = 1;
     this.img = new Image();
-    this.img.onload = () => {
 
-      this.increCol = 75;
+    this.img.onload = () => {
       let increColPlus = 0;
       for (let i = 0; i < 5; i++) {
+        this.increCol = this.randomShipPosX();
+        this.increRow = this.randomShipPosY();
+        const lastRandom = this.increRow;
+        console.log('lastRandom', lastRandom);
+        console.log('this.increRow', this.increRow);
+        if (lastRandom === this.increRow) {
+          this.increRow = this.randomShipPosY();
+          console.log('ok');
+        }
+
         if (i === 3 || i === 4) {
           xCanvasOccup = 2.2;
           increColPlus = 20;
         }
-        this.context.drawImage(this.img, this.ship.x[i], this.ship.y[i], this.ship.width[i], this.ship.height[i],
-        this.increCol + increColPlus, 1, 75 / xCanvasOccup, 75 * this.ship.yCanvasOccup[i]);
 
-        this.increCol += 75;
+        if (this.increRow + 75 * this.ship.yCanvasOccup[i] > gameBoxHeight) {
+          let OutCanvasGrid = (this.increRow + 75 * this.ship.yCanvasOccup[i]) - gameBoxHeight;
+
+          this.context.drawImage(this.img, this.ship.x[i], this.ship.y[i], this.ship.width[i], this.ship.height[i],
+            this.increCol + increColPlus, this.increRow - OutCanvasGrid, 75 / xCanvasOccup, 75 * this.ship.yCanvasOccup[i]);
+        } else {
+          this.context.drawImage(this.img, this.ship.x[i], this.ship.y[i], this.ship.width[i], this.ship.height[i],
+            this.increCol + increColPlus, this.increRow, 75 / xCanvasOccup, 75 * this.ship.yCanvasOccup[i]);
+        }
       }
     };
     function getRandomInt(max) {
@@ -86,4 +103,22 @@ export class CanvasCompComponent implements OnInit {
     this.img.src = './assets/img/spaceshipFleet.jpg';
   }
 
+  randomShipPosX() {
+    let randomNumber = Math.floor(Math.random() * 10) * 75;
+    return randomNumber;
+    // min = Math.ceil(min);
+    // max = Math.floor(max);
+    // console.log(Math.floor(Math.random() * (max - min)) + min);
+    // return Math.floor(Math.random() * (max - min)) + min; // The maximum is exclusive and the minimum is inclusive
+
+  }
+
+  randomShipPosY() {
+    let randomNumber = Math.floor(Math.random() * 8) * 75;
+    return randomNumber;
+    // min = Math.ceil(min);
+    // max = Math.floor(max);
+    // console.log(Math.floor(Math.random() * (max - min)) + min);
+    // return Math.floor(Math.random() * (max - min)) + min; // The maximum is exclusive and the minimum is inclusive
+  }
 }

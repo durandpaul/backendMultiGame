@@ -1,0 +1,24 @@
+{
+  "name": "multibackend",
+  "version": "1.0.0",
+  "description": "this is the backend for the multiplayer game Touched Damaged",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durandpaul/backendMultiGame.git"
+  },
+  "author": "Paul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/durandpaul/backendMultiGame/issues"
+  },
+  "homepage": "https://github.com/durandpaul/backendMultiGame#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
+}
