@@ -8,13 +8,15 @@ import {
   styleUrls: ['./canvas-comp.component.css']
 })
 export class CanvasCompComponent implements OnInit {
-  @ViewChild('canvasGrid') canvas;
-  @ViewChild('canvasFleet') canvasSec;
+  @ViewChild('canvasGrid') canvas: any;
+  @ViewChild('canvasFleet') canvasSec: any;
   private context: CanvasRenderingContext2D;
   increCol: number;
   increRow: number;
+  showMenu: boolean = true;
+  notConnect: boolean = false;
 
-  img;
+  img: any;
   ship = {
     x: [54, 197, 314, 419, 419],
     y: [305, 348, 426, 515, 515],
@@ -29,8 +31,17 @@ export class CanvasCompComponent implements OnInit {
   ngOnInit() {
     this.drawGrid();
     this.drawSpaceFleet();
+
   }
 
+  gameAccess() {
+    if(localStorage.length === 2){
+      console.log('click');
+      this.showMenu = false;
+    } else {
+      this.notConnect = true
+    }
+  }
 
   private drawGrid() {
 

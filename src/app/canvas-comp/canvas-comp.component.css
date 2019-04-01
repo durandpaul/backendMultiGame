@@ -1,5 +1,5 @@
 #gameContainer {
-    background-color: bisque;
+    background-color: rgb(216, 143, 54);
     /* Permet aux canvas de se superposer normalement */
     position: relative;
     display: block;
@@ -7,21 +7,23 @@
 }
 
 .canvasGrid {
-    background-color: azure;
-    position: absolute;
-    display: block;
-    z-index: 0;
-}
-
-.canvasFleet {
+    background-color: transparent;
     position: absolute;
     display: block;
     z-index: 1;
 }
 
+.canvasFleet {
+    position: absolute;
+    display: block;
+    z-index: 2;
+}
+
 #menu {
     width: 1050px;
     height: 700px;
+    position: absolute;
+    z-index: 3;
     /* background color temporaire */
     background: black;
 }

@@ -1,8 +1,6 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-// import { UserServiceService } from '../user-service.service';
-
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-user',
@@ -13,14 +11,14 @@ export class UserComponent implements OnInit {
 
   newUserForm: FormGroup;
   userConnection: FormGroup;
-  notConnect: boolean;
-  connect: boolean;
+  connect: boolean = false;
+  notConnect: boolean = true;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private userS: UserService) { }
 
   ngOnInit() {
-    this.notConnect = true;
-    this.connect = false;
+    localStorage.removeItem('currentUserId') ;
+    localStorage.removeItem('currentUsername') ;
     this.newUserForm = this.fb.group({
       newEmail: ['', Validators.email],
       newUsername: ['', Validators.required],
@@ -32,22 +30,52 @@ export class UserComponent implements OnInit {
     });
   }
 
-  createNewUse(){
+  getconnect() {
+    // console.log(localStorage.currentUserId);
+    if(localStorage.currentUserId){
+      this.connect = true;
+      this.notConnect = false;
+    } 
+  }
+
+  createNewUse() {
     console.warn(this.newUserForm.value);
     if (this.newUserForm.valid) {
+      this.userS.newUser(this.newUserForm.value).subscribe((data) => {
+        console.log(data);
+      },
+        (error) => {
+          if (error.status === 404) {
+            return 'Username ou mot de passe incorrect';
+          }
+        });
       this.newUserForm.reset();
-    } else {
-
     }
   }
 
-  newConnection(){
-    console.warn(this.userConnection.value);
+  newConnection(): void {
+    // console.warn(this.userConnection.value);
     if (this.userConnection.valid) {
+      this.userS.getUser(this.userConnection.value).subscribe((data) => {
+        // console.log(data);
+        if(data){
+          this.getconnect()
+        }
+      },
+        (error) => {
+          if (error.status === 404) {
+            return 'Username ou mot de passe incorrect';
+          }
+        });
       this.userConnection.reset();
-    } else {
-
     }
+  }
+
+  logout() {
+    this.connect = false;
+    this.notConnect = true;
+    localStorage.removeItem('currentUserId') ;
+    localStorage.removeItem('currentUsername') ;
   }
 
 }

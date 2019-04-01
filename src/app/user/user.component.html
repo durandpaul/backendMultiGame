@@ -40,6 +40,9 @@
   </div>
 </div>
 <ng-template #connect>
+  <div>
+    <button type="submit" class="btn btn-warning" (click)="logout()">Déconnection</button>
+  </div>
   <app-user-board></app-user-board>
   <p>Maybe a chat Box</p>
 </ng-template>

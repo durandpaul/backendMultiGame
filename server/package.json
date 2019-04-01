@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/durandpaul/backendMultiGame#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
+    "js-sha512": "^0.8.0",
+    "mongoose": "^5.4.19",
     "socket.io": "^2.2.0"
   }
 }
