@@ -1,3 +1,24 @@
-<p>
-  user-board works!
-</p>
+<div>
+  <div>
+    <h2 > Votre profil: {{ currentUserData.username }} </h2>
+    <h3 class="text-left">Vos informations</h3>
+    <ul class="text-left">
+      <li> SCORE TOTAL: {{ currentUserData.score }} </li>
+      <li> PARTIES GAGNEZ:  {{ currentUserData.win }} </li>
+      <li> PARTIES PERDUE {{ currentUserData.loose }} </li>
+
+    </ul>
+  </div>
+  <div *ngIf="game; else notGame">
+    <h3>Jeu en cours</h3>
+    <p>Adverser: {{ adverser }} </p>
+    <p>Vaisseau restant: {{ fleetAlive }} </p>
+    <p>Score: {{ score }} </p>
+  </div>
+  <ng-template #notGame>
+    <h3>En Attente de Joueurs !</h3>
+    <p>Aucune action posible</p>
+    <small>Si joueur affichage du pseudo de celui-ci !</small>
+
+  </ng-template>
+</div>

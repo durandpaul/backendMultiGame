@@ -8,11 +8,24 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   notConnect: boolean;
   connect: boolean;
+  start: boolean;
+  notStart: boolean;
+  title = 'touched-damaged';
 
   ngOnInit() {
-    this.notConnect = true;
-    this.connect = false;
-
   }
-  title = 'touched-damaged';
+
+  getUserDecon(boolean) {
+    this.notConnect = boolean;
+  }
+
+  getGameStart(boolean) {
+    this.start = boolean;
+  }
+
+  getGameNotStart(boolean) {
+    this.notStart = boolean;
+  }
+
+
 }

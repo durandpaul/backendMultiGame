@@ -1,5 +1,5 @@
 #gameContainer {
-    background-color: rgb(216, 143, 54);
+    /* background-color: rgb(216, 143, 54); */
     /* Permet aux canvas de se superposer normalement */
     position: relative;
     display: block;
@@ -20,12 +20,10 @@
 }
 
 #menu {
-    width: 1050px;
+    width: 750px;
     height: 700px;
     position: absolute;
     z-index: 3;
-    /* background color temporaire */
-    background: black;
 }
 
 .btnspace {

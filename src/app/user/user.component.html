@@ -43,6 +43,7 @@
   <div>
     <button type="submit" class="btn btn-warning" (click)="logout()">Déconnection</button>
   </div>
-  <app-user-board></app-user-board>
-  <p>Maybe a chat Box</p>
+  <!-- use for user board a @input to pass id and display data of the player -->
+  <app-user-board [game]="start" [notGame]="notStart" ></app-user-board>
+  <!-- <p>Maybe a chat Box</p> -->
 </ng-template>

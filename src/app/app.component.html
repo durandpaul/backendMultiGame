@@ -4,15 +4,15 @@
   </h1>
   <div class="row">
     <div class="col- col-sm-2 col-md-2 col-lg-2">
-      <app-socket></app-socket>
     </div>
     <div class="col- col-sm-7 col-md-7 col-lg-7 game">
       <!-- <div *ng-if="connected">
       </div> -->
-      <app-canvas-comp></app-canvas-comp>
+      <app-canvas-comp (notStart)="getGameNotStart($event)" (start)="getGameStart($event)" [decoInput]="notConnect" ></app-canvas-comp>
     </div>
     <div class="col- col-sm-3 col-md-3 col-lg-3">
-      <app-user></app-user>
+      <!-- maybe do an @output to pass info when user is connect or more ?! -->
+      <app-user [start]="start" [notStart]="notStart" (loginEvent)="getUserDecon($event)"></app-user>
     </div>
   </div>
   <app-footer></app-footer>

@@ -1,13 +1,12 @@
-<!-- <h3>The Game : TOUCHED DAMAGED </h3> -->
 
 <div id='gameContainer' >
-  <canvas class='canvasGrid' width="1000px" height="600px">
+  <canvas class='canvasGrid' width="750px" height="600px">
     Sorry, your browser doesn't support the &lt;canvas&gt; element.
   </canvas>
-  <canvas class='canvasFleet' width="1000px" height="600px">
+  <canvas class='canvasFleet' width="750px" height="600px" (click)="clickFleet($event)" >
     Sorry, your browser doesn't support the &lt;canvas&gt; element.
   </canvas>
-  <div id="menu" class="bg-dark" *ngIf="showMenu">
+  <div id="menu" class="bg-dark" *ngIf="decoInput">
     <div class="row btnspace">
       <div class="col- col-sm-3 col-md-3 col-lg-3">
 
@@ -16,7 +15,7 @@
         <button type="button" class="btn btn-danger btn-lg enter-game" (click)="gameAccess()"> Jouer </button>
         <br>
         <div *ngIf="notConnect">
-          <small class="text-danger" >Veuillez vous connecter pour accéder au jeu !</small>
+          <small class="text-danger">Veuillez vous connecter pour accéder au jeu !</small>
         </div>
       </div>
       <div class="col- col-sm-3 col-md-3 col-lg-3">
@@ -48,6 +47,3 @@
   </div>
 </div>
 
-<ng-template #notConnect>
-
-</ng-template>

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'app-user',
@@ -13,12 +14,20 @@ export class UserComponent implements OnInit {
   userConnection: FormGroup;
   connect: boolean = false;
   notConnect: boolean = true;
+  @Output() loginEvent: EventEmitter<boolean> = new EventEmitter();
+  @Input() start: boolean;
+  @Input() notStart: boolean;
 
-  constructor(private fb: FormBuilder, private userS: UserService) { }
+
+  constructor(private fb: FormBuilder, private userS: UserService, private socketS: SocketService) { }
 
   ngOnInit() {
-    localStorage.removeItem('currentUserId') ;
-    localStorage.removeItem('currentUsername') ;
+    if(sessionStorage.length === 2) {
+      sessionStorage.clear();
+      this.notConnect = false;
+      this.connect = true;
+    }
+
     this.newUserForm = this.fb.group({
       newEmail: ['', Validators.email],
       newUsername: ['', Validators.required],
@@ -31,18 +40,15 @@ export class UserComponent implements OnInit {
   }
 
   getconnect() {
-    // console.log(localStorage.currentUserId);
-    if(localStorage.currentUserId){
-      this.connect = true;
+    if(sessionStorage.currentUserId){
       this.notConnect = false;
+      this.connect = true;
     } 
   }
 
   createNewUse() {
-    console.warn(this.newUserForm.value);
     if (this.newUserForm.valid) {
       this.userS.newUser(this.newUserForm.value).subscribe((data) => {
-        console.log(data);
       },
         (error) => {
           if (error.status === 404) {
@@ -54,10 +60,8 @@ export class UserComponent implements OnInit {
   }
 
   newConnection(): void {
-    // console.warn(this.userConnection.value);
     if (this.userConnection.valid) {
-      this.userS.getUser(this.userConnection.value).subscribe((data) => {
-        // console.log(data);
+      this.userS.login(this.userConnection.value).subscribe((data) => {
         if(data){
           this.getconnect()
         }
@@ -74,8 +78,9 @@ export class UserComponent implements OnInit {
   logout() {
     this.connect = false;
     this.notConnect = true;
-    localStorage.removeItem('currentUserId') ;
-    localStorage.removeItem('currentUsername') ;
+    this.socketS.disconnectToSo();
+    this.loginEvent.emit(this.notConnect);
+    sessionStorage.clear();
   }
 
 }

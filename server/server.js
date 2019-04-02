@@ -5,15 +5,20 @@ const bodyParser = require('body-parser');
 const cors = require('cors') ;
 const http = require('http').Server(app);
 const port = '3000';
+require('./db');
 
-app.use(cors()) ;
+
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json());
 
 const userRouter = require('./routes/userRouter');
 const dataRouter = require('./routes/dataRouter');
 const socket = require('./lib/socket');
 
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json());
+// require('./models/dataGameM');
+// require('./models/roomM');
+// require('./models/userM');
 
 app.use(userRouter);
 app.use(dataRouter);
