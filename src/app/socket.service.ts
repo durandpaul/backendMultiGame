@@ -9,7 +9,7 @@ export class SocketService {
   private socket: any;
 
   constructor() {
-    this.socket = socketIo();
+    this.socket = socketIo('/');
 
   }
 
