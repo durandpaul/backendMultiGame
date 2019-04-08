@@ -1,4 +1,4 @@
 module.exports = {
-    origin: 'http://localhost:4200',
+    origin: 'https://cryptic-woodland-96651.herokuapp.com/',
     optionsSuccessStatus: 200
 }

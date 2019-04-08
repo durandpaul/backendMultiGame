@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors') ;
 const http = require('http').Server(app);
-const port = '3000';
+const port = process.env.PORT || '3000';
 require('./db');
 
 

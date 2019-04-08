@@ -9,7 +9,7 @@ export class SocketService {
   private socket: any;
 
   constructor() {
-    this.socket = socketIo('http://localhost:3000');
+    this.socket = socketIo();
 
   }
 

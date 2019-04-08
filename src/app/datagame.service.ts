@@ -21,7 +21,7 @@ export class DatagameService {
   constructor(private http: HttpClient) { }
 
   getFleetToDraw(): Observable<Fleet> {
-    return this.http.post<Fleet>('http://localhost:3000/datafleet', {}).pipe(map((data) => {
+    return this.http.post<Fleet>('/datafleet', {}).pipe(map((data) => {
       if (data) {
         return data;
       } else {
@@ -31,7 +31,7 @@ export class DatagameService {
   }
 
   getDataRFleet(user: string): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/getdatafleetr', {user: user}).pipe(map((data) => {
+    return this.http.post<any>('/getdatafleetr', {user: user}).pipe(map((data) => {
       console.log('getDataRFleet: ', data);
       if (data) {
         return data;
@@ -43,7 +43,7 @@ export class DatagameService {
 
   sendFleetRandomPos(fleetRandom: any): Observable<any> {
     // console.log('fleetRandom', fleetRandom);
-    return this.http.post<any>('http://localhost:3000/addrandfleet', fleetRandom).pipe(map((data) => {
+    return this.http.post<any>('/addrandfleet', fleetRandom).pipe(map((data) => {
       if (data) {
         return data;
       } else {
