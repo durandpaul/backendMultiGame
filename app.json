@@ -1,0 +1,25 @@
+    
+{
+    "name": "Touched Damage Game",
+    "description": "This a multiplayer Game",
+    "keywords": [
+      "MEAN",
+      "Angular",
+      "Node",
+      "MongoDB",
+      "mLab",
+      "Socket IO",
+      "Canvas"
+    ],
+    "repository": "https://github.com/durandpaul/backendMultiGame",
+    "success_url": "/",
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "free"
+      }
+    },
+    "addons": [
+      "mongolab"
+    ]
+  }
