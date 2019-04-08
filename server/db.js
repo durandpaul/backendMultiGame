@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/multip';
+var mongoDB = 'mongodb+srv://paul:p@ul92@cluster0-ad5t2.gcp.mongodb.net/multidb?retryWrites=true';
 mongoose.connect(mongoDB, {
   useNewUrlParser: true
 });
