@@ -1,4 +1,4 @@
 module.exports = {
-    origin: 'https://cryptic-woodland-96651.herokuapp.com/',
+    origin: 'https://touchdamagetest.herokuapp.com/',
     optionsSuccessStatus: 200
 }
