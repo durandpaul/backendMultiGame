@@ -2,8 +2,6 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, DoCheck } from '@an
 import { UserService } from '../user.service';
 import { DatagameService } from '../datagame.service';
 
-
-
 @Component({
   selector: 'app-user-board',
   templateUrl: './user-board.component.html',
@@ -13,15 +11,15 @@ export class UserBoardComponent implements OnInit, OnChanges, DoCheck {
 
   currentUser: string;
   adverser: string;
-  fleetAlive = '';
-  score = '';
-  currentUserData: any;
+  fleetAlive: number;
+  score: number;
+  currentUserData: any = '';
   on: boolean = false;
   off: boolean = true
   @Input() notGame: boolean;
   @Input() game: boolean;
   @Input() newAdverser: boolean;
-  @Input() newClick: boolean;
+  // @Input() newClick: boolean;
   constructor(private userS: UserService, private dataS: DatagameService) { }
 
   ngOnInit() {
@@ -30,18 +28,15 @@ export class UserBoardComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log('changes ', changes);
     this.on = this.game;
     this.off = this.notGame;
-    if (this.newAdverser || this.newClick) {
-      this.adverser = sessionStorage.adverser;
-      this.displayAdverserData();
-    }
+    this.adverser = sessionStorage.adverser;
+    if(this.adverser !== undefined)
+      this.displayAdverserData(this.adverser);
   }
 
   ngDoCheck() {
     this.adverser = sessionStorage.adverser;
-
   }
 
   displayCurrentUser() {
@@ -52,38 +47,38 @@ export class UserBoardComponent implements OnInit, OnChanges, DoCheck {
     },
       (error) => {
         if (error.status === 404) {
-          return 'Username ou mot de passe incorrect';
+          return 'Problème de données';
         }
       });
   }
 
-  displayAdverserData() {
-    console.log('this.adverser', this.adverser);
-    this.dataS.getDataRFleet(this.adverser).subscribe((data) => {
-      console.log('getDataRFleet', data);
+  displayAdverserData(adverser) {
+    console.log('this.adverser', adverser);
+    this.dataS.getDataRFleet(adverser).subscribe((data) => {
+      // console.log('getDataRFleet', data);
 
       if (data) {
-        this.fleetAlive = data.user.shipalive;
-        console.log(this.fleetAlive);
+        this.fleetAlive = data.fleet.shipalive;
+        // console.log(this.fleetAlive);
       }
     },
       (error) => {
         if (error.status === 404) {
-          return 'Username ou mot de passe incorrect';
+          return 'Problème de données';
         }
       });
 
-    this.userS.getUser(this.adverser).subscribe((data) => {
-      console.log('displayAdverserData ', data);
+    this.userS.getUser(adverser).subscribe((data) => {
+      // console.log('displayAdverserData ', data);
 
       if (data) {
         this.score = data.user.score;
-        console.log(this.currentUserData);
+        // console.log(this.currentUserData);
       }
     },
       (error) => {
         if (error.status === 404) {
-          return 'Username ou mot de passe incorrect';
+          return 'Problème de données';
         }
       });
 

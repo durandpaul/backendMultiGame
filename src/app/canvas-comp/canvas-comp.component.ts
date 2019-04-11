@@ -13,7 +13,8 @@ import { SocketService } from '../socket.service';
 })
 export class CanvasCompComponent implements OnInit, DoCheck {
   @ViewChild('canvasGrid') canvas: any;
-  @ViewChild('canvasFleet') canvasSec: any;
+  @ViewChild('canvasRedCross') canvasSec: any;
+  
   private context: CanvasRenderingContext2D;
   increCol: number;
   increRow: number;
@@ -54,59 +55,86 @@ export class CanvasCompComponent implements OnInit, DoCheck {
       this.drawGrid();
       this.drawSpaceFleet();
       this.socketS.connectToSo(sessionStorage.currentUsername);
-      // console.log('sessionStorage ', sessionStorage);
     } else {
       this.notConnect = true;
     }
   }
 
-
   clickFleet(event) {
-    this.drawCross(true);
-    console.log('event X ', event.clientX - 330);
-    console.log('event Y ', event.clientY - 60);
     if (sessionStorage.gameon != undefined) {
       console.log('event X ', event.clientX - 330);
       console.log('event Y ', event.clientY - 60);
-      this.socketS.sendClickPos(event.clientX, event.clientY, (data) => {
-        console.log(data);
-        // this.drawCross();
-
+      let clickX = event.clientX - 330;
+      let clickY = event.clientY - 60;
+      this.socketS.sendClickPos(clickX, clickY, (data: any) => {
+        console.log(data.bool);
+        this.drawCross(data.bool, clickX, clickY, data.userT);
       });
     }
   }
 
+  private drawCross(toucheOrN, x: number, y: number, userT: string) {   
 
-  private drawCross(toucheOrN: boolean) {
-    console.log('draw croosssss');
-    this.canvas = this.renderer.selectRootElement('.canvasGrid');
-    this.context = this.canvas.getContext('2d');
-    const gameBoxHeight = this.canvas.height;
-    const gameBoxWidth = this.canvas.width;
+    this.calculToDrawCross(x, y, (newX: number, newY: number) => {
+    
+      if (toucheOrN === true) {
+        this.canvas = this.renderer.selectRootElement('.canvasGrid');
+        this.context = this.canvas.getContext('2d');
+        this.context.strokeStyle = 'green';
+        this.context.beginPath();
+        this.context.moveTo(newX + 2, newY + 2);
+        this.context.lineTo(newX + 73, newY + 73);
+        this.context.stroke();
+        this.context.closePath()
+        
+        this.context.beginPath();
+        this.context.moveTo(newX + 73, newY + 2);
+        this.context.lineTo(newX + 2, newY + 73);
+        this.context.stroke();
+        this.context.closePath();
+        
+      } else {
+        this.canvasSec = this.renderer.selectRootElement('.canvasRedCross');
+        this.context = this.canvasSec.getContext('2d');
+        this.context.strokeStyle = 'red';
+        this.context.beginPath();
+        this.context.moveTo(newX + 2, newY + 2);
+        this.context.lineTo(newX + 73, newY + 73);
+        this.context.stroke();
+        this.context.closePath()
+        
+        this.context.beginPath();
+        this.context.moveTo(newX + 73, newY + 2);
+        this.context.lineTo(newX + 2, newY + 73);
+        this.context.stroke();
+        this.context.closePath();
+      }
 
-    if(toucheOrN === false) {
-      this.context.strokeStyle ='red';
-      this.context.beginPath();
-      this.context.moveTo(2, 2);
-      this.context.lineTo(73, 73);
-      this.context.stroke()
-      this.context.beginPath();
-      this.context.moveTo(73, 2);
-      this.context.lineTo(2, 70);
-      this.context.stroke()
-    } else {
-      this.context.strokeStyle ='green';
-      this.context.beginPath();
-      this.context.moveTo(2, 2);
-      this.context.lineTo(73, 73);
-      this.context.stroke()
-      this.context.beginPath();
-      this.context.moveTo(73, 2);
-      this.context.lineTo(2, 70);
-      this.context.stroke()
+    });
+
+  }
+
+  private calculToDrawCross(x: number, y: number, callback) {
+    let calcX = Math.floor(x / 75);
+    let calcY = Math.floor(y / 75);
+    let newX: number;
+    let newY: number;
+
+    if (calcX === 0) {
+      newX = 0;
     }
-   
-    // this.socketS.getTouchOrNot();
+    else if (calcX > 0) {
+      newX = 75 * calcX;
+    }
+
+    if (calcY === 0) {
+      newY = 0;
+    }
+    else if (calcY > 0) {
+      newY = 75 * calcY;
+    }
+
+    callback(newX, newY);
   }
 
   private drawGrid() {
@@ -119,10 +147,7 @@ export class CanvasCompComponent implements OnInit, DoCheck {
     const gridNumberWidthL = gameBoxWidth / 75;
     this.context.clearRect(0, 0, gameBoxWidth, gameBoxHeight);
     this.increCol = 0;
-    console.log('gridNumberHeightL', gridNumberHeightL);
-    console.log('gridNumberWidthL', gridNumberWidthL);
-    
-    
+
     for (let x = 0; x < gridNumberWidthL; x++) {
       this.increRow = 0;
 
@@ -140,14 +165,12 @@ export class CanvasCompComponent implements OnInit, DoCheck {
   }
 
   private drawSpaceFleet() {
-    this.canvasSec = this.renderer.selectRootElement('.canvasFleet');
+    this.canvas = this.renderer.selectRootElement('.canvasGrid');
     this.context = this.canvas.getContext('2d');
     const gameBoxHeight = this.canvas.height;
     const gameBoxWidth = this.canvas.width;
     let xCanvasOccup = 1;
-    // this.context.clearRect(0, 0, gameBoxWidth, gameBoxHeight);
     this.dataGameS.getFleetToDraw().subscribe((data) => {
-      // console.log(data.fleet[0]);
       const fleet = data.fleet[0];
 
       this.img = new Image();
@@ -158,7 +181,7 @@ export class CanvasCompComponent implements OnInit, DoCheck {
           canvasXpos: [],
           canvasYpos: [],
           height: [],
-          numbSquare: [],
+          numbSquare: []
         }
         for (let i = 0; i < 5; i++) {
           this.increCol = this.randomShipPosX();

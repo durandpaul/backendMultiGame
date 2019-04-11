@@ -17,11 +17,14 @@ interface Fleet {
   providedIn: 'root'
 })
 export class DatagameService {
+  // Changer avant remise sur Heroku
+  private host: string = 'http://localhost:3000';
+
 
   constructor(private http: HttpClient) { }
 
   getFleetToDraw(): Observable<Fleet> {
-    return this.http.post<Fleet>('/datafleet', {}).pipe(map((data) => {
+    return this.http.post<Fleet>(this.host + '/datafleet', {}).pipe(map((data) => {
       if (data) {
         return data;
       } else {
@@ -31,8 +34,7 @@ export class DatagameService {
   }
 
   getDataRFleet(user: string): Observable<any> {
-    return this.http.post<any>('/getdatafleetr', {user: user}).pipe(map((data) => {
-      console.log('getDataRFleet: ', data);
+    return this.http.post<any>(this.host + '/getdatafleetr', {user: user}).pipe(map((data) => {
       if (data) {
         return data;
       } else {
@@ -42,8 +44,7 @@ export class DatagameService {
   }
 
   sendFleetRandomPos(fleetRandom: any): Observable<any> {
-    // console.log('fleetRandom', fleetRandom);
-    return this.http.post<any>('/addrandfleet', fleetRandom).pipe(map((data) => {
+    return this.http.post<any>(this.host + '/addrandfleet', fleetRandom).pipe(map((data) => {
       if (data) {
         return data;
       } else {

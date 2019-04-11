@@ -13,7 +13,14 @@
     z-index: 1;
 }
 
-.canvasFleet {
+/* .canvasGreen {
+    background-color: transparent;
+    position: absolute;
+    display: block;
+    z-index: 1;
+} */
+
+.canvasRedCross {
     position: absolute;
     display: block;
     z-index: 2;

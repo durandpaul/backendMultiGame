@@ -5,7 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors') ;
 const http = require('http').Server(app);
-const port = process.env.PORT || '3000';
+const port = process.env.PORT || 3000;
 require('./server/db');
 
 
@@ -13,11 +13,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname +  '/dist'));
+// Changer avant remise sur Heroku
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/dist/index.html'));
-});
+// app.use(express.static(__dirname +  '/dist'));
+
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname + '/dist/index.html'));
+// });
 
 const userRouter = require('./server/routes/userRouter');
 const dataRouter = require('./server/routes/dataRouter');

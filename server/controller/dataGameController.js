@@ -14,9 +14,11 @@ exports.getFleetDrawPos = (req, res) => {
 }
 
 exports.getRandFleet = (req, res) => {
-  RandFleet.findOne({user: user}).then((data)=> {
+  RandFleet.findOne({
+    user: req.body.user
+  }).then((data) => {
     console.log('getRandFleet ', data);
-    
+
     return res.json({
       Status: 200,
       fleet: data
@@ -32,14 +34,16 @@ exports.addRandomFleet = (randFleet, roomId, user) => {
   newrandFleet.x = randFleet.canvasXpos;
   newrandFleet.y = randFleet.canvasYpos;
   newrandFleet.height = randFleet.height;
-  newrandFleet.ycanvasoccup = randFleet.numberSquare;
+  newrandFleet.ycanvasoccup = randFleet.numbSquare;
   newrandFleet.save();
 }
 
 
 exports.deleteRoomFleet = (roomId) => {
   console.log('deleteRoomFleet ', roomId);
-  RandFleet.deleteMany({roomid: roomId}).then( (data) => {
-      // console.log('deleteMany', data);
+  RandFleet.deleteMany({
+    roomid: roomId
+  }).then((data) => {
+    // console.log('deleteMany', data);
   });
 }

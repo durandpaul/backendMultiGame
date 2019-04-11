@@ -25,8 +25,7 @@ exports.socketIo = (http) => {
         }
 
         if (roomUserNb === 2) {
-          // console.log('users', users);
-          
+
           io.sockets.in('room-' + socket.roomid).emit('newparty', {
             start: 'La partie peux commencer',
             users: users
@@ -42,17 +41,14 @@ exports.socketIo = (http) => {
     })
 
     socket.on('sendClickPos', (clickPos) => {
-      console.log('sendClickPos', clickPos);
-      CalculClickPos.touchOrnot(clickPos , socket.username, socket.roomid, function (bool) {
-        console.log('bool', bool);
-        
-        io.sockets.in(socket.roomid).emit('returnClickPos', {
-          touch: 'touché'
-          
+      CalculClickPos.touchOrnot(clickPos, socket.username, socket.roomid, function (bool, userT) {
+
+        io.sockets.in('room-' + socket.roomid).emit('returnClickPos', {
+          bool: bool,
+          userT: userT
         })
       });
 
-      // console.log('socket: ', socket)
     });
 
     socket.on('leave', function () {
@@ -60,7 +56,6 @@ exports.socketIo = (http) => {
       if (socket.roomid !== undefined) {
         DataG.deleteRoomFleet(socket.roomid);
         RoomInstance.DeleteRoom(socket.roomid, function (idRoom) {
-          // console.log('DeleteRoom ', idRoom);
 
           socket.leave('room-' + idRoom);
           socket.on('disconnect', function () {

@@ -3,7 +3,11 @@
 var mongoose = require('mongoose');
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb+srv://paul:p@ul92@cluster0-ad5t2.gcp.mongodb.net/multidb?retryWrites=true';
+var mongoDB = 'mongodb://localhost:27017/multip';
+
+// Changer avant remise sur Heroku
+// var mongoDB = 'mongodb+srv://paul:p@ul92@cluster0-ad5t2.gcp.mongodb.net/multidb?retryWrites=true';
+
 mongoose.connect(mongoDB, {
   useNewUrlParser: true
 });

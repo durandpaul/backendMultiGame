@@ -11,6 +11,3 @@ const DataFleetSchema = new mongoose.Schema({
 
 const DataFleet = mongoose.model('DataFleet', DataFleetSchema);
 module.exports = DataFleet;
-
-
-
