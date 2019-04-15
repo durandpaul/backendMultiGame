@@ -6,7 +6,8 @@
     height: 700px;
 }
 
-.canvasGrid {
+.canvasgrid {
+    background-image: url('../../assets/img/backgroundSpace4.jpg');
     background-color: transparent;
     position: absolute;
     display: block;
@@ -20,7 +21,7 @@
     z-index: 1;
 } */
 
-.canvasRedCross {
+.canvasredcross {
     position: absolute;
     display: block;
     z-index: 2;

@@ -57,18 +57,14 @@ exports.findUser = (req, res) => {
 }
 
 exports.updateUserScores = (user, newScore) => {
-  console.log(score);
+  // console.log(newScore);
   User.findOneAndUpdate({
     'username': user
-  }, {score: newScore}).then((user) => {
-    console.log(user);
+  }, { $inc: {score: newScore} }).then((user) => {
+    // console.log(user);
     if (!user) {
-      res.sendStatus(404);
-    } else {
-      res.json({
-        status: 200,
-      });
-    }
+      console.log('error in Update Score');      
+    } 
   });
 
 }

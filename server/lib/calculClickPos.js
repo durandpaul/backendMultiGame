@@ -1,5 +1,6 @@
 'use strict';
 const DataRFleet = require('../models/randFleetM');
+const CalculGameE = require('../lib/calculGameEvent');
 
 var userShipInfo1 = {
   incre1: 0,
@@ -19,81 +20,85 @@ var userShipInfo2 = {
   shipD: []
 }
 
+var gameEnd = false;
+
 
 exports.touchOrnot = (posXY, user, id, callback) => {
-  // console.log('posXY', posXY);
   DataRFleet.find({
     roomid: id
   }).then((data) => {
     let touch;
     if (data[0].user != user) {
-
       for (let i = 0; i < data[0].x.length; i++) {
         if (posXY.posx >= data[0].x[i] && posXY.posx <= (data[0].x[i] + 75) && posXY.posy >= data[0].y[i] && posXY.posy <= data[0].y[i] + (75 * data[0].ycanvasoccup[i])) {
           touch = true;
 
           if (data[0].ycanvasoccup[i] === 4) {
-
             userShipInfo1.incre1 += 1;
             if (userShipInfo1.incre1 === data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
               userShipInfo1.shipD.push(data[0].ycanvasoccup[i]);
-
+              CalculGameE.setNewScores(user, false, true, false);
             } else if (userShipInfo1.incre1 < data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} touch !`);
-
+              CalculGameE.setNewScores(user, true, false, false);
             }
           }
 
           if (data[0].ycanvasoccup[i] === 3) {
             userShipInfo1.incre2 += 1;
             if (userShipInfo1.incre2 === data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
               userShipInfo1.shipD.push(data[0].ycanvasoccup[i]);
-
+              CalculGameE.setNewScores(user, false, true, false);
             } else if (userShipInfo1.incre2 < data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} touch !`);
-
+              CalculGameE.setNewScores(user, true, false, false);
             }
           }
 
           if (data[0].ycanvasoccup[i] === 2) {
             userShipInfo1.incre3 += 1;
             if (userShipInfo1.incre3 === data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
               userShipInfo1.shipD.push(data[0].ycanvasoccup[i]);
+              CalculGameE.setNewScores(user, false, true, false);
             } else if (userShipInfo1.incre3 < data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} touch !`);
+              CalculGameE.setNewScores(user, true, false, false);
             }
           }
 
           if (data[0].ycanvasoccup[i] === 1) {
-
             if (i === 3) {
               userShipInfo1.incre4 += 1;
               if (userShipInfo1.incre4 === 1) {
-                console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
                 userShipInfo1.shipD.push(data[0].ycanvasoccup[i]);
+                CalculGameE.setNewScores(user, true, true, false);
               }
             }
 
             if (i === 4) {
               userShipInfo1.incre5 += 1;
               if (userShipInfo1.incre5 === 1) {
-                console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
                 userShipInfo1.shipD.push(data[0].ycanvasoccup[i]);
+                CalculGameE.setNewScores(user, true, true, false);
               }
             }
           }
 
         }
-			}
-			console.log('userShipInfo1.shipD.length', userShipInfo1.shipD.length);
-			if(userShipInfo1.shipD.length !== 5) {
-				callback(touch, data[0].user);
-			} else {
-				 console.log('Game Over');
-			}
+      }
+      if (userShipInfo1.shipD.length < 5 && gameEnd === false) {
+        var pos = {
+          x: posXY.posx,
+          y: posXY.posy
+        }
+        callback(touch, data[0].user, gameEnd, pos);
+      } else {
+        gameEnd = true;
+        var pos = {
+          x: posXY.posx,
+          y: posXY.posy
+        }
+        CalculGameE.setNewScores(user, false, false, gameEnd);
+        callback(touch, data[0].user, gameEnd, pos);
+        console.log('Game Over');
+      }
     }
     if (data[1].user != user) {
       for (let i = 0; i < data[1].x.length; i++) {
@@ -101,37 +106,32 @@ exports.touchOrnot = (posXY, user, id, callback) => {
           touch = true;
 
           if (data[0].ycanvasoccup[i] === 4) {
-
             userShipInfo2.incre1 += 1;
             if (userShipInfo2.incre1 === data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
               userShipInfo2.shipD.push(data[0].ycanvasoccup[i]);
-
+              CalculGameE.setNewScores(user, false, true, false);
             } else if (userShipInfo2.incre1 < data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} touch !`);
-
+              CalculGameE.setNewScores(user, true, false, false);
             }
           }
 
           if (data[0].ycanvasoccup[i] === 3) {
             userShipInfo2.incre2 += 1;
             if (userShipInfo2.incre2 === data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
               userShipInfo2.shipD.push(data[0].ycanvasoccup[i]);
-
+              CalculGameE.setNewScores(user, false, true, false);
             } else if (userShipInfo2.incre2 < data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} touch !`);
-
+              CalculGameE.setNewScores(user, true, false, false);
             }
           }
 
           if (data[0].ycanvasoccup[i] === 2) {
             userShipInfo2.incre3 += 1;
             if (userShipInfo2.incre3 === data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
               userShipInfo2.shipD.push(data[0].ycanvasoccup[i]);
+              CalculGameE.setNewScores(user, false, true, false);
             } else if (userShipInfo2.incre3 < data[0].ycanvasoccup[i]) {
-              console.log(`Ship ${data[0].ycanvasoccup[i]} touch !`);
+              CalculGameE.setNewScores(user, true, false, false);
             }
           }
 
@@ -139,26 +139,36 @@ exports.touchOrnot = (posXY, user, id, callback) => {
             if (i === 3) {
               userShipInfo2.incre4 += 1;
               if (userShipInfo2.incre4 === 1) {
-                console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
                 userShipInfo2.shipD.push(data[0].ycanvasoccup[i]);
+                CalculGameE.setNewScores(user, true, true, false);
               }
             }
             if (i === 4) {
               userShipInfo2.incre5 += 1;
               if (userShipInfo2.incre5 === 1) {
-                console.log(`Ship ${data[0].ycanvasoccup[i]} destroy !`);
                 userShipInfo2.shipD.push(data[0].ycanvasoccup[i]);
+                CalculGameE.setNewScores(user, true, true, false);
               }
             }
           }
         }
       }
-			console.log('userShipInfo2.shipD.length', userShipInfo2.shipD.length);
-			if(userShipInfo2.shipD.length !== 5) {
-				callback(touch, data[1].user);
-			} else {
-				 console.log('Game Over');
-			}
+      if (userShipInfo2.shipD.length < 5 && gameEnd === false) {
+        var pos = {
+          x: posXY.posx,
+          y: posXY.posy
+        }
+        callback(touch, data[1].user, gameEnd, pos);
+      } else {
+        gameEnd = true;
+        var pos = {
+          x: posXY.posx,
+          y: posXY.posy
+        }
+        CalculGameE.setNewScores(user, false, false, gameEnd);
+        callback(touch, data[1].user, gameEnd, pos);
+        console.log('Game Over');
+      }
     }
   });
 

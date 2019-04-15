@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserBoardComponent } from './user-board/user-board.component';
+import { ResultsComponent } from './results/results.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { UserBoardComponent } from './user-board/user-board.component';
     CanvasCompComponent,
     FooterComponent,
     UserComponent,
-    UserBoardComponent
+    UserBoardComponent,
+    ResultsComponent
   ],
   imports: [
     NgbModule, BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule

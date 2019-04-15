@@ -9,7 +9,7 @@ export class SocketService {
   private socket: any;
 
   constructor() {
-  // Changer avant remise sur Heroku
+    // Changer avant remise sur Heroku
     this.socket = socketIo('http://localhost:3000');
 
   }
@@ -20,14 +20,19 @@ export class SocketService {
   }
 
   sendClickPos(posX: number, posY: number, callback) {
-
+    // console.log('sendClickPos posX ', posX);
     this.socket.emit('sendClickPos', {
       posx: posX,
       posy: posY
     });
 
     this.socket.on('returnClickPos', (data) => {
-      callback(data);
+      if (data.gameEnd === false) {
+        callback(data);
+      } else {
+        sessionStorage.removeItem('gameon');
+      }
+
     });
 
   }
@@ -40,7 +45,7 @@ export class SocketService {
 
     this.socket.on('newparty', (data) => {
       sessionStorage.setItem('gameon', data.start);
-      
+
       if (sessionStorage.currentUsername === data.users[0]) {
         sessionStorage.setItem('adverser', data.users[1]);
       } else {

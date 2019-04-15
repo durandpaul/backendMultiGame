@@ -17,7 +17,7 @@ exports.getRandFleet = (req, res) => {
   RandFleet.findOne({
     user: req.body.user
   }).then((data) => {
-    console.log('getRandFleet ', data);
+    // console.log('getRandFleet ', data);
 
     return res.json({
       Status: 200,
@@ -40,7 +40,7 @@ exports.addRandomFleet = (randFleet, roomId, user) => {
 
 
 exports.deleteRoomFleet = (roomId) => {
-  console.log('deleteRoomFleet ', roomId);
+  // console.log('deleteRoomFleet ', roomId);
   RandFleet.deleteMany({
     roomid: roomId
   }).then((data) => {

@@ -41,11 +41,13 @@ exports.socketIo = (http) => {
     })
 
     socket.on('sendClickPos', (clickPos) => {
-      CalculClickPos.touchOrnot(clickPos, socket.username, socket.roomid, function (bool, userT) {
-
+      CalculClickPos.touchOrnot(clickPos, socket.username, socket.roomid, function (bool, userT, gameEnd, pos) {
+        console.log(pos);
         io.sockets.in('room-' + socket.roomid).emit('returnClickPos', {
           bool: bool,
-          userT: userT
+          userT: userT,
+          gameEnd: gameEnd,
+          posxy: pos
         })
       });
 
