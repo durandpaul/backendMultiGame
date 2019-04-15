@@ -9,8 +9,7 @@ export class SocketService {
   private socket: any;
 
   constructor() {
-    // Changer avant remise sur Heroku
-    this.socket = socketIo('http://localhost:3000');
+    this.socket = socketIo('/');
 
   }
 
@@ -20,7 +19,6 @@ export class SocketService {
   }
 
   sendClickPos(posX: number, posY: number, callback) {
-    // console.log('sendClickPos posX ', posX);
     this.socket.emit('sendClickPos', {
       posx: posX,
       posy: posY
