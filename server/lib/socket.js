@@ -6,6 +6,8 @@ const DataG = require('../controller/dataGameController');
 exports.socketIo = (http) => {
   const io = require('socket.io')(http);
 
+  // l'utilisateur se connecte à une partie.
+
   io.on('connection', (socket) => {
     socket.setMaxListeners(20);
 
@@ -14,6 +16,7 @@ exports.socketIo = (http) => {
       console.log('new user join: ', username);
       socket.username = username;
 
+      // Création d'une nouvelle Room 
       RoomInstance.NewRoom(socket.username, function (roomId, users, roomUserNb) {
 
         socket.join('room-' + roomId);
@@ -36,11 +39,19 @@ exports.socketIo = (http) => {
 
     });
 
+    // Reception données nouvelle flotte random
+
     socket.on('sendRandFleet', (randFleet) => {
+      // Ajout en DB
+
       DataG.addRandomFleet(randFleet, socket.roomid, socket.username);
     })
 
+    //  Reception du click sur le canvas
+
     socket.on('sendClickPos', (clickPos) => {
+      // les positions reçu du click sont envoyées sur le middleware et retourne l'utilisateur touché (ou pas) et si c'est la fin du jeu
+
       CalculClickPos.touchOrnot(clickPos, socket.username, socket.roomid, function (bool, userT, gameEnd, pos) {
         console.log(pos);
         io.sockets.in('room-' + socket.roomid).emit('returnClickPos', {
@@ -50,8 +61,9 @@ exports.socketIo = (http) => {
           posxy: pos
         })
       });
-
     });
+
+    // lors de la déconnexion du joueur différentes informations en base de données sont supprimé.
 
     socket.on('leave', function () {
       console.log(`leave ${socket.username} from Room ${socket.roomid}`);

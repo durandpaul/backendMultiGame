@@ -2,11 +2,16 @@
 
 var mongoose = require('mongoose');
 
+// A utilisé en phase de test
+
 //Set up default mongoose connection
 // var mongoDB = 'mongodb://localhost:27017/multip';
 
-// Changer avant remise sur Heroku
+// A utilisé pour déploiement sur Heroku
+
 var mongoDB = 'mongodb+srv://paul:p@ul92@cluster0-ad5t2.gcp.mongodb.net/multidb?retryWrites=true';
+
+// Création connection DB avec Mongoose
 
 mongoose.connect(mongoDB, {
   useNewUrlParser: true

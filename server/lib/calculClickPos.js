@@ -2,6 +2,9 @@
 const DataRFleet = require('../models/randFleetM');
 const CalculGameE = require('../lib/calculGameEvent');
 
+
+// création pour chaque jour de la Room un obj avec incré (pour chaque vaisseau) et un tableau des vaisseau détruits pour définir la fin du jeu
+
 var userShipInfo1 = {
   incre1: 0,
   incre2: 0,
@@ -22,6 +25,8 @@ var userShipInfo2 = {
 
 var gameEnd = false;
 
+// Middleware de calcul afin de determiné si le joueur visé est touché par l'action du joueur adverse
+// les 2 condition if font la même chose avec la prise en compte des positions des vaisseaux random en DB et de la taillex de ceux-ci dans le canvas
 
 exports.touchOrnot = (posXY, user, id, callback) => {
   DataRFleet.find({
@@ -30,6 +35,8 @@ exports.touchOrnot = (posXY, user, id, callback) => {
     let touch;
     if (data[0].user != user) {
       for (let i = 0; i < data[0].x.length; i++) {
+        // Si le vaisseau est touché on met à jour les informations des joueurs (soit le nombre de point soit le nombre de vaisseau touché)
+
         if (posXY.posx >= data[0].x[i] && posXY.posx <= (data[0].x[i] + 75) && posXY.posy >= data[0].y[i] && posXY.posy <= data[0].y[i] + (75 * data[0].ycanvasoccup[i])) {
           touch = true;
 
@@ -83,6 +90,8 @@ exports.touchOrnot = (posXY, user, id, callback) => {
 
         }
       }
+      // On détermine si la partie n'est pas fini on envoi les positions sinon c'est la fin de la partie. 
+
       if (userShipInfo1.shipD.length < 5 && gameEnd === false) {
         var pos = {
           x: posXY.posx,

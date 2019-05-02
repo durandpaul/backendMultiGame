@@ -1,8 +1,9 @@
 'use strict';
 const UserController = require('../controller/userController');
 
+// Reçoit les infos afin de mettre à jour les points des joueur en DB 
+
 exports.setNewScores = (user, touch, shipD, win) => {
-  console.log('setNewScores');
   
   if (touch === true) {
     console.log('setNewScores touch :', touch);
