@@ -36,7 +36,7 @@
     "js-sha512": "^0.8.0",
     "cors": "^2.8.5",
     "body-parser": "^1.18.3",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26",
     "typescript": "~3.2.2"
